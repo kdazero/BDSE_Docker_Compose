@@ -1,0 +1,36 @@
+version: '1.0'
+services:
+  sql:
+    container_name: MySQLServer
+    build:
+      context: ./sql
+      dockerfile: Dockerfile
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: testdb
+    volumes:
+      - ./share_dir:/share_dir
+
+  py:
+    container_name: Python
+    build:
+      context: ./py
+      dockerfile: Dockerfile
+    environment:
+      MYSQL_HOST: sql
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_PORT: 3306
+    volumes:
+      - ./share_dir:/share_dir
+  # web:
+  #   container_name: WebServer
+  #   build:
+  #     context: ./web
+  #     dockerfile: Dockerfile
+  #   volumes:
+  #     - ./share_dir
+volumes:
+  shared_data:
