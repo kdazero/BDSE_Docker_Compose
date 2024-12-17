@@ -19,7 +19,7 @@ services:
       context: ./py
       dockerfile: Dockerfile
     environment:
-      MYSQL_HOST: sql
+      MYSQL_HOST: localhost
       MYSQL_USER: root
       MYSQL_PASSWORD: root
       MYSQL_PORT: 3306

@@ -5,7 +5,7 @@ class SQL_DB:
     
     def __init__(self, default_database=None):
         self.connection = pymysql.connect(
-            host=os.getenv('MYSQL_HOST', 'sql'),  # 默認值為 Docker Compose 中 MySQL 的服務名稱
+            host=os.getenv('MYSQL_HOST', 'localhost'),  # 默認值為 Docker Compose 中 MySQL 的服務名稱
             user=os.getenv('MYSQL_USER', 'root'),  # 使用環境變量，默認為 'root'
             password=os.getenv('MYSQL_PASSWORD', 'root'),  # 默認密碼
             port=int(os.getenv('MYSQL_PORT', 3306)),  # 默認 MySQL 端口
