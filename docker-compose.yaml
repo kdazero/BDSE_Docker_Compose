@@ -1,36 +1,29 @@
-version: '1.0'
-services:
-  sql:
-    container_name: MySQLServer
-    build:
-      context: ./sql
-      dockerfile: Dockerfile
-    ports:
-      - "3306:3306"
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: testdb
-    volumes:
-      - ./share_dir:/share_dir
+version: "3.9"
 
-  py:
-    container_name: Python
+services:
+  sql_server:
     build:
-      context: ./py
+      context: ./sql_m 
       dockerfile: Dockerfile
-    environment:
-      MYSQL_HOST: localhost
-      MYSQL_USER: root
-      MYSQL_PASSWORD: root
-      MYSQL_PORT: 3306
     volumes:
-      - ./share_dir:/share_dir
-  # web:
-  #   container_name: WebServer
-  #   build:
-  #     context: ./web
-  #     dockerfile: Dockerfile
-  #   volumes:
-  #     - ./share_dir
+      - shared_data:/data 
+
+  py_m:
+    build:
+      context: ./py_m 
+      dockerfile: Dockerfile
+    volumes:
+      - shared_data:/data 
+    ports:
+      - "5000:5000"  # 將容器的 5000 埠映射到宿主機的 5000 埠
+
+  web_server:
+    build:
+      context: ./web_m 
+      dockerfile: Dockerfile
+    volumes:
+      - shared_data:/data
+    ports:
+      - "80:80"  # 將容器的 80 埠映射到宿主機的 80 埠
 volumes:
   shared_data:
