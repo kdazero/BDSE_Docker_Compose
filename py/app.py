@@ -1,27 +1,43 @@
-import os
+from flask import Flask, render_template
 import pymysql
 
-class SQL_DB:
-    
-    def __init__(self, default_database=None):
-        self.connection = pymysql.connect(
-            host=os.getenv('MYSQL_HOST', 'localhost'),  # 默認值為 Docker Compose 中 MySQL 的服務名稱
-            user=os.getenv('MYSQL_USER', 'root'),  # 使用環境變量，默認為 'root'
-            password=os.getenv('MYSQL_PASSWORD', 'root'),  # 默認密碼
-            port=int(os.getenv('MYSQL_PORT', 3306)),  # 默認 MySQL 端口
-            database=default_database,  # 如果有指定的數據庫，則連接該數據庫
-            cursorclass=pymysql.cursors.DictCursor
-        )
+app = Flask(__name__)
 
-    def show_DB(self):
-        with self.connection.cursor() as cursor:
-            cursor.execute('SHOW DATABASES')
-            result = cursor.fetchall()
-            return result
+# MySQL 連線資訊
+conn_str = {
+    'host': 'sql_server',  # 使用 docker-compose 服務名稱作為主機名稱
+    'user': 'root',  # 使用 root 使用者
+    'password': 'root',  # 使用 root 使用者的密碼
+    'database': 'mydatabase', 
+    'port': 3306,  # MySQL 預設埠
+}
 
-if __name__ == "__main__":
+@app.route('/')
+def index():
     try:
-        print("Available Databases:")
-        print(SQL_DB().show_DB())
-    except pymysql.MySQLError as e:
-        print(f"Error: {e}")
+        # 連接到 MySQL
+        conn = pymysql.connect(**conn_str)
+        cursor = conn.cursor()
+
+        # 執行 SQL 查詢
+        cursor.execute("SELECT * FROM TitanicCSV")
+        data = cursor.fetchall()
+
+        # 關閉連線
+        cursor.close()
+        conn.close()
+
+        # 渲染 HTML 模板並傳遞資料
+        rendered_html = render_template('index.html', data=data)
+
+        # 將渲染好的 HTML 儲存到 shared_data 資料夾
+        with open('/data/index.html', 'w') as f:
+            f.write(rendered_html)
+
+        return redirect(url_for('static', filename='index.html'))  # 重新導向到 Nginx 提供的靜態檔案
+
+    except Exception as e:
+        return str(e)
+
+if __name__ == '__main__':
+    app.run(debug=True, host='0.0.0.0')

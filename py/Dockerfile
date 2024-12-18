@@ -1,6 +1,14 @@
-FROM python
-WORKDIR /py_dir
-ENV DEBIAN_FRONTEND=noninteractive
-RUN pip install --no-cache-dir pymysql flask
+FROM python:latest
+
+WORKDIR /app
+RUN mkdir templates
+
+COPY requirements.txt requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
 COPY . .
-CMD ["python","app.py"]
+
+RUN mv index.html templates/
+RUN mv app.py templates/
+
+CMD ["python", "/app/templates/app.py"]
