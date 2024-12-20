@@ -16,7 +16,9 @@ services:
       - shared_data:/data 
     ports:
       - "5000:5000"  # 將容器的 5000 埠映射到宿主機的 5000 埠
-
+    depends_on:
+      - sql_server
+ 
   web_server:
     build:
       context: ./web_m 
@@ -25,5 +27,7 @@ services:
       - shared_data:/data
     ports:
       - "80:80"  # 將容器的 80 埠映射到宿主機的 80 埠
+    depends_on:
+      - py_m
 volumes:
   shared_data:
