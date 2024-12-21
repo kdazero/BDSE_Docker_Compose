@@ -28,7 +28,7 @@ def index():
         cursor.close()
         conn.close()
 	
-	return render_template('index.html', data=data)	
+        return render_template('index.html', data=data)	
 
         # 渲染 HTML 模板並傳遞資料
         #rendered_html = render_template('index.html', data=data)
