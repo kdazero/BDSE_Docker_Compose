@@ -11,6 +11,5 @@ RUN pip install cryptography
 COPY . .
 
 RUN mv index.html templates/
-RUN mv app.py templates/
 
-CMD ["python", "/app/templates/app.py"]
+CMD ["python", "/app/app.py"]
