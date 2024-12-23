@@ -5,15 +5,11 @@ services:
     build:
       context: ./sql_m 
       dockerfile: Dockerfile
-    volumes:
-      - shared_data:/data 
 
   py_m:
     build:
       context: ./py_m 
       dockerfile: Dockerfile
-    volumes:
-      - shared_data:/data 
     ports:
       - "5000:5000"
     depends_on:
@@ -23,8 +19,6 @@ services:
     build:
       context: ./web_m 
       dockerfile: Dockerfile
-    volumes:
-      - shared_data:/data
     ports:
       - "80:80" 
     depends_on:
