@@ -1,10 +1,7 @@
 # Docker_Compose
-利用 Docker Compose 將 CSV檔寫入 MySQL 再利用 Python 將內容讀取出來放在網頁上呈現 
+利用 Docker Compose 將 CSV檔寫入 MySQL 再利用 Python 將內容讀取出來，透過 Flask 渲染後，在轉接給 ngnix 在網頁上做呈現 
 
 # 使用教學
-將本文件所有檔案複製到 Linux 中 (Use Filezilla)
-請不要變更任何檔名及檔案位置避免出錯
-
 - docker download
 
     下載 docker 請先複製並執行下列全部的程式
@@ -23,15 +20,19 @@
     sudo apt-get update
     ```
 
-    上方執行完後再執行此程式
+    上方段落執行完後再執行此行程式
     ```bash
     sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
     ```
 
 - 本專案執行方式
+    將本文件所有檔案複製到 Linux 中 (Use Filezilla)
+    請不要變更任何檔名及檔案位置避免出錯
 
     請在本檔案主目錄下執行
     ```bash
     docker compose -build
-    docker compose up
+    docker compose up -d
     ``` 
+
+Created By BDSE_36_10 李柏毅
