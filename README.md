@@ -31,8 +31,7 @@
 
     請在本檔案主目錄下執行
     ```bash
-    docker compose -build
-    docker compose up -d
+    docker compose up -d --build
     ``` 
 
 Created By BDSE_36_10 李柏毅
